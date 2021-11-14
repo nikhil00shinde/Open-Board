@@ -5,11 +5,17 @@ canvas.height = window.innerHeight;
 let pencilColor = document.querySelectorAll(".pencil-color");
 let pencilWidthElem = document.querySelector(".pencil-width");
 let eraserWidthElem = document.querySelector(".eraser-width");
+let download = document.querySelector(".download");
+let redo = document.querySelector(".redo");
+let undo = document.querySelector(".undo");
 
 let penColor = "red";
 let eraserColor = "white";
 let penWidth = pencilWidthElem.value;
 let eraserWidth = eraserWidthElem.value;
+
+let undoRedoTracker = []; //Data
+let track = 0; //Represent which option from tracker array
 
 let mouseDown = false;
 
@@ -36,13 +42,55 @@ canvas.addEventListener("mousemove", (e) => {
 		drawStroke({
 			x: e.clientX,
 			y: e.clientY,
+			color: eraserFlag ? eraserColor : penColor,
+			width: eraserWidth ? eraserWidth : penWidth,
 		});
 	}
 });
 
 canvas.addEventListener("mouseup", (e) => {
 	mouseDown = false;
+
+	let url = canvas.toDataURL();
+	undoRedoTracker.push(url);
+	track = undoRedoTracker.length - 1;
 });
+
+//undo action
+undo.addEventListener("click", (e) => {
+	if (track > 0) track--;
+
+	let trackObj = {
+		trackValue: track,
+		undoRedoTracker,
+	};
+	//track action
+	undoRedoCanvas(trackObj);
+});
+
+//redo action
+redo.addEventListener("click", (e) => {
+	if (track < undoRedoTracker.length - 1) track++;
+	let trackObj = {
+		trackValue: track,
+		undoRedoTracker,
+	};
+	//track action
+	undoRedoCanvas(trackObj);
+});
+
+function undoRedoCanvas(trackObj) {
+	track = trackObj.trackValue;
+	undoRedoTracker = trackObj.undoRedoTracker;
+
+	let url = undoRedoTracker[track];
+	let img = new Image(); //new image reference element
+	img.src = url;
+	img.onload = (e) => {
+		tool.clearRect(0, 0, canvas.width, canvas.height);
+		tool.drawImage(img, 0, 0, canvas.width, canvas.height);
+	};
+}
 
 function beginPath(strokeObj) {
 	tool.beginPath();
@@ -50,6 +98,8 @@ function beginPath(strokeObj) {
 }
 
 function drawStroke(strokeObj) {
+	tool.strokeStyle = strokeObj.color;
+	tool.lineWidth = strokeObj.width;
 	tool.lineTo(strokeObj.x, strokeObj.y);
 	tool.stroke();
 }
@@ -77,8 +127,27 @@ eraserWidthElem.addEventListener("change", () => {
 
 //eraser container
 eraser.addEventListener("click", (e) => {
-    
+	if (eraserFlag) {
+		tool.strokeStyle = eraserColor;
+		tool.lineWidth = eraserWidth;
+	} else {
+		tool.strokeStyle = penColor;
+		tool.lineWidth = penWidth;
+	}
 });
+
+//download functionality
+download.addEventListener("click", (e) => {
+	let url = canvas.toDataURL();
+
+	let a = document.createElement("a");
+	a.href = url;
+	a.download = "board.jpg";
+	a.click();
+	a.remove();
+});
+
+// <------------------------------------------------------------------------------->
 
 // tool.beginPath(); //new graphic (path) (line)
 // tool.moveTo(10, 10); //start point
@@ -89,5 +158,5 @@ eraser.addEventListener("click", (e) => {
 // tool.beginPath();
 // // agar hum beginPath nhi denge toh old path ke end se start hoga hamara naya path
 // tool.moveTo(10, 10);
-tool.lineTo(200, 200);
-tool.stroke();
+// tool.lineTo(200, 200);
+// tool.stroke();
