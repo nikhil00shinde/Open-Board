@@ -67,6 +67,15 @@
 		<!-- Canvas - Graphics Drawing (2d) -->
 		<!-- HTML Element , API(Browser Api) -->
 		<canvas></canvas>
+		<script
+			src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+			integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			//connect socket with frontend
+			let socket = io.connect("http://localhost:5000");
+		</script>
 		<script src="./tools.js"></script>
 		<script src="./canvas.js"></script>
 	</body>
