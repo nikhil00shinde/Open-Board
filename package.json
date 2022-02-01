@@ -1,28 +1,31 @@
 {
-  "name": "4.whiteboard",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node app.js"
-
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nikhil00shinde/Open-Board.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nikhil00shinde/Open-Board/issues"
-  },
-  "homepage": "https://github.com/nikhil00shinde/Open-Board#readme",
-  "dependencies": {
-    "express": "^4.17.1",
-    "socket.io": "^4.3.2"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
-  }
+	"name": "4.whiteboard",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"engines": {
+		"node": "14.16.1",
+		"npm": "6.14.12"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nikhil00shinde/Open-Board.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/nikhil00shinde/Open-Board/issues"
+	},
+	"homepage": "https://github.com/nikhil00shinde/Open-Board#readme",
+	"dependencies": {
+		"express": "^4.17.1",
+		"socket.io": "^4.3.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	}
 }
