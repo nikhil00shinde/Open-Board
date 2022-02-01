@@ -26,4 +26,19 @@ let io = socket(server); //intialization
 //event listener hai, ki jabhi mere frontend se connect ho jaega
 io.on("connection", (socket) => {
 	console.log("Made socket connection");
+
+	// Recieved Data
+	socket.on("beginPath", (data) => {
+		// data -> data from frontend
+		// Now transfer data to all connected computers
+		io.sockets.emit("beginPath", data);
+	});
+
+	socket.on("drawStroke", (data) => {
+		io.sockets.emit("drawStroke", data);
+	});
+
+	socket.on("redoUndo", (data) => {
+		io.sockets.emit("redoUndo", data);
+	});
 });
